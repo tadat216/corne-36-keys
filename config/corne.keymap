@@ -115,6 +115,27 @@
             #binding-cells = <0>;
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
+
+        comma_morph: comma_morph {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp COMMA>, <&kp SEMICOLON>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        dot_morph: dot_morph {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp DOT>, <&kp COLON>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        qmark_excl: qmark_excl {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp QMARK>, <&kp EXCL>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
     };
 
     keymap {
@@ -132,7 +153,7 @@
             bindings = <
 &kp TAB              &kp Q               &kp W           &kp E               &kp R             &kp T          &kp Y      &kp U              &kp I                &kp O            &kp P                   &kp MINUS
 &kp GRAVE            &hml LEFT_CONTROL A  &hml LEFT_ALT S  &hml LEFT_COMMAND D  &hml LEFT_SHIFT F  &kp G          &kp H      &hmr RIGHT_SHIFT J  &hmr RIGHT_COMMAND K  &hmr RIGHT_ALT L  &hmr RIGHT_CONTROL SEMI  &kp SINGLE_QUOTE
-&mt GLOBE BACKSLASH  &kp Z               &lt 5 X         &kp C               &kp V             &kp B          &kp N      &kp M              &kp COMMA            &lt 6 PERIOD     &kp SLASH               &mt GLOBE EQUAL
+&mt GLOBE BACKSLASH  &kp Z               &lt 5 X         &kp C               &kp V             &kp B          &kp N      &kp M              &comma_morph         &dot_morph       &qmark_excl             &mt GLOBE EQUAL
                                                          &mo 7               &lt 1 SPACE       &lt 3 ENTER    &lt 4 ESC  &lt_bspc_del       &to 8
             >;
         };

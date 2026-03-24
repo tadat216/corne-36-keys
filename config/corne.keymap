@@ -9,9 +9,13 @@
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/pointing.h>
 
-/* ZMK helpers and key position labels for 42-key Corne */
+/* ZMK helpers and key position labels for 36-key layout on 42-key matrix.
+ * We use 36.h for named combo/HRM positions (inner 5 cols + thumbs).
+ * The 6 outer pinky positions (0, 11, 12, 23, 24, 35) are always &none.
+ * Note: 36.h positions are offset — LT4=0 in 36.h maps to physical position 1.
+ * We use raw numbers for hold-trigger-key-positions to match the 42-key matrix.
+ */
 #include <zmk-helpers/helper.h>
-#include <zmk-helpers/key-labels/42.h>
 
 /* Layer definitions */
 #define DEF 0
@@ -62,7 +66,17 @@
     quick-tap-ms = <QUICK_TAP_MS>;
 };
 
-/* Homerow mods */
+/* Homerow mods
+ * 42-key matrix positions used directly (not 36.h labels):
+ *  0   1   2   3   4   5  |  6   7   8   9  10  11
+ * 12  13  14  15  16  17  | 18  19  20  21  22  23
+ * 24  25  26  27  28  29  | 30  31  32  33  34  35
+ *                36  37  38  | 39  40  41
+ *
+ * Inner 5 cols per side (the actual keys):
+ * Left:  1-5, 13-17, 25-29   Right: 6-10, 18-22, 30-34
+ * Thumbs: 36-38, 39-41
+ */
 
 / {
     behaviors {
@@ -76,10 +90,10 @@
             require-prior-idle-ms = <150>;
             hold-trigger-on-release;
             hold-trigger-key-positions = <
-                RT0 RT1 RT2 RT3 RT4 RT5
-                RM0 RM1 RM2 RM3 RM4 RM5
-                RB0 RB1 RB2 RB3 RB4 RB5
-                LH0 LH1 LH2 RH0 RH1 RH2
+                6  7  8  9  10
+                18 19 20 21 22
+                30 31 32 33 34
+                36 37 38 39 40 41
             >;
         };
 
@@ -93,10 +107,10 @@
             require-prior-idle-ms = <150>;
             hold-trigger-on-release;
             hold-trigger-key-positions = <
-                LT0 LT1 LT2 LT3 LT4 LT5
-                LM0 LM1 LM2 LM3 LM4 LM5
-                LB0 LB1 LB2 LB3 LB4 LB5
-                LH0 LH1 LH2 RH0 RH1 RH2
+                1  2  3  4  5
+                13 14 15 16 17
+                25 26 27 28 29
+                36 37 38 39 40 41
             >;
         };
     };
@@ -106,17 +120,33 @@
     combos {
         compatible = "zmk,combos";
 
-        /* Caps word: G + H (inner index columns) */
+        /* All combo positions use 42-key matrix numbers.
+         * Row 0: _  1  2  3  4  5 |  6  7  8  9 10  _
+         * Row 1: _ 13 14 15 16 17 | 18 19 20 21 22  _
+         * Row 2: _ 25 26 27 28 29 | 30 31 32 33 34  _
+         * Thumb:         36 37 38 | 39 40 41
+         */
+
+        /* Caps word: G + H */
         capwords {
             bindings = <&caps_word>;
-            key-positions = <LM0 RM0>;
+            key-positions = <17 18>;
             layers = <DEF>;
         };
 
-        /* Mouse toggle: W + E positions */
+        /* Mouse toggle: E + R */
         combo_mouse {
             bindings = <&tog MOUSE>;
-            key-positions = <LT2 LT1>;
+            key-positions = <3 4>;
+            layers = <DEF NAV NUM>;
+            timeout-ms = <18>;
+            require-prior-idle-ms = <150>;
+        };
+
+        /* Single quote: O + P */
+        combo_sqt {
+            bindings = <&kp SQT>;
+            key-positions = <9 10>;
             layers = <DEF NAV NUM>;
             timeout-ms = <18>;
             require-prior-idle-ms = <150>;
@@ -125,7 +155,7 @@
         /* Horizontal combos - left hand */
         combo_esc {
             bindings = <&kp ESC>;
-            key-positions = <LT3 LT2>;
+            key-positions = <2 3>;
             layers = <DEF NAV NUM>;
             timeout-ms = <18>;
             require-prior-idle-ms = <150>;
@@ -133,7 +163,7 @@
 
         combo_tab {
             bindings = <&kp TAB>;
-            key-positions = <LM3 LM2>;
+            key-positions = <14 15>;
             layers = <DEF NAV NUM>;
             timeout-ms = <18>;
             require-prior-idle-ms = <150>;
@@ -141,7 +171,7 @@
 
         combo_cut {
             bindings = <&kp LG(X)>;
-            key-positions = <LB3 LB1>;
+            key-positions = <26 28>;
             layers = <DEF NAV NUM>;
             timeout-ms = <18>;
             require-prior-idle-ms = <150>;
@@ -149,7 +179,7 @@
 
         combo_copy {
             bindings = <&kp LG(C)>;
-            key-positions = <LB3 LB2>;
+            key-positions = <26 27>;
             layers = <DEF NAV NUM>;
             timeout-ms = <18>;
             require-prior-idle-ms = <150>;
@@ -157,7 +187,7 @@
 
         combo_paste {
             bindings = <&kp LG(V)>;
-            key-positions = <LB2 LB1>;
+            key-positions = <27 28>;
             layers = <DEF NAV NUM>;
             timeout-ms = <18>;
             require-prior-idle-ms = <150>;
@@ -166,7 +196,7 @@
         /* Horizontal combos - right hand */
         combo_bspc {
             bindings = <&kp BSPC>;
-            key-positions = <RT1 RT2>;
+            key-positions = <7 8>;
             layers = <DEF NAV NUM>;
             timeout-ms = <18>;
             require-prior-idle-ms = <150>;
@@ -174,39 +204,43 @@
 
         combo_del {
             bindings = <&kp DEL>;
-            key-positions = <RT2 RT3>;
+            key-positions = <8 9>;
             layers = <DEF NAV NUM>;
             timeout-ms = <18>;
             require-prior-idle-ms = <150>;
         };
 
+        /* Tap: ( | Shift: < */
         combo_lpar {
-            bindings = <&kp LPAR>;
-            key-positions = <RM1 RM2>;
+            bindings = <&lpar_lt>;
+            key-positions = <19 20>;
             layers = <DEF NAV NUM>;
             timeout-ms = <18>;
             require-prior-idle-ms = <150>;
         };
 
+        /* Tap: ) | Shift: > */
         combo_rpar {
-            bindings = <&kp RPAR>;
-            key-positions = <RM2 RM3>;
+            bindings = <&rpar_gt>;
+            key-positions = <20 21>;
             layers = <DEF NAV NUM>;
             timeout-ms = <18>;
             require-prior-idle-ms = <150>;
         };
 
+        /* Tap: [ | Shift: { */
         combo_lbkt {
-            bindings = <&kp LBKT>;
-            key-positions = <RB1 RB2>;
+            bindings = <&lbkt_lbrc>;
+            key-positions = <31 32>;
             layers = <DEF NAV NUM>;
             timeout-ms = <18>;
             require-prior-idle-ms = <150>;
         };
 
+        /* Tap: ] | Shift: } */
         combo_rbkt {
-            bindings = <&kp RBKT>;
-            key-positions = <RB2 RB3>;
+            bindings = <&rbkt_rbrc>;
+            key-positions = <32 33>;
             layers = <DEF NAV NUM>;
             timeout-ms = <18>;
             require-prior-idle-ms = <150>;
@@ -215,7 +249,7 @@
         /* Vertical combos - left hand (symbols) */
         combo_at {
             bindings = <&kp AT>;
-            key-positions = <LT3 LM3>;
+            key-positions = <2 14>;
             layers = <DEF NAV NUM>;
             timeout-ms = <30>;
             require-prior-idle-ms = <50>;
@@ -223,7 +257,7 @@
 
         combo_hash {
             bindings = <&kp HASH>;
-            key-positions = <LT2 LM2>;
+            key-positions = <3 15>;
             layers = <DEF NAV NUM>;
             timeout-ms = <30>;
             require-prior-idle-ms = <50>;
@@ -231,7 +265,7 @@
 
         combo_dllr {
             bindings = <&kp DLLR>;
-            key-positions = <LT1 LM1>;
+            key-positions = <4 16>;
             layers = <DEF NAV NUM>;
             timeout-ms = <30>;
             require-prior-idle-ms = <50>;
@@ -239,7 +273,7 @@
 
         combo_prcnt {
             bindings = <&kp PRCNT>;
-            key-positions = <LT0 LM0>;
+            key-positions = <5 17>;
             layers = <DEF NAV NUM>;
             timeout-ms = <30>;
             require-prior-idle-ms = <50>;
@@ -247,7 +281,7 @@
 
         combo_grave {
             bindings = <&kp GRAVE>;
-            key-positions = <LM3 LB3>;
+            key-positions = <14 26>;
             layers = <DEF NAV NUM>;
             timeout-ms = <30>;
             require-prior-idle-ms = <50>;
@@ -255,7 +289,7 @@
 
         combo_bslh {
             bindings = <&kp BSLH>;
-            key-positions = <LM2 LB2>;
+            key-positions = <15 27>;
             layers = <DEF NAV NUM>;
             timeout-ms = <30>;
             require-prior-idle-ms = <50>;
@@ -263,7 +297,7 @@
 
         combo_equal {
             bindings = <&kp EQUAL>;
-            key-positions = <LM1 LB1>;
+            key-positions = <16 28>;
             layers = <DEF NAV NUM>;
             timeout-ms = <30>;
             require-prior-idle-ms = <50>;
@@ -271,7 +305,7 @@
 
         combo_tilde {
             bindings = <&kp TILDE>;
-            key-positions = <LM0 LB0>;
+            key-positions = <17 29>;
             layers = <DEF NAV NUM>;
             timeout-ms = <30>;
             require-prior-idle-ms = <50>;
@@ -280,7 +314,7 @@
         /* Vertical combos - right hand (operators) */
         combo_caret {
             bindings = <&kp CARET>;
-            key-positions = <RT0 RM0>;
+            key-positions = <6 18>;
             layers = <DEF NAV NUM>;
             timeout-ms = <30>;
             require-prior-idle-ms = <50>;
@@ -288,7 +322,7 @@
 
         combo_plus {
             bindings = <&kp PLUS>;
-            key-positions = <RT1 RM1>;
+            key-positions = <7 19>;
             layers = <DEF NAV NUM>;
             timeout-ms = <30>;
             require-prior-idle-ms = <50>;
@@ -296,7 +330,7 @@
 
         combo_star {
             bindings = <&kp STAR>;
-            key-positions = <RT2 RM2>;
+            key-positions = <8 20>;
             layers = <DEF NAV NUM>;
             timeout-ms = <30>;
             require-prior-idle-ms = <50>;
@@ -304,7 +338,7 @@
 
         combo_amps {
             bindings = <&kp AMPS>;
-            key-positions = <RT3 RM3>;
+            key-positions = <9 21>;
             layers = <DEF NAV NUM>;
             timeout-ms = <30>;
             require-prior-idle-ms = <50>;
@@ -312,7 +346,7 @@
 
         combo_under {
             bindings = <&kp UNDER>;
-            key-positions = <RM0 RB0>;
+            key-positions = <18 30>;
             layers = <DEF NAV NUM>;
             timeout-ms = <30>;
             require-prior-idle-ms = <50>;
@@ -320,7 +354,7 @@
 
         combo_minus {
             bindings = <&kp MINUS>;
-            key-positions = <RM1 RB1>;
+            key-positions = <19 31>;
             layers = <DEF NAV NUM>;
             timeout-ms = <30>;
             require-prior-idle-ms = <50>;
@@ -328,7 +362,7 @@
 
         combo_fslh {
             bindings = <&kp FSLH>;
-            key-positions = <RM2 RB2>;
+            key-positions = <20 32>;
             layers = <DEF NAV NUM>;
             timeout-ms = <30>;
             require-prior-idle-ms = <50>;
@@ -336,44 +370,10 @@
 
         combo_pipe {
             bindings = <&kp PIPE>;
-            key-positions = <RM3 RB3>;
+            key-positions = <21 33>;
             layers = <DEF NAV NUM>;
             timeout-ms = <30>;
             require-prior-idle-ms = <50>;
-        };
-
-        /* Left/right brace combos on NAV layer */
-        combo_lbrc {
-            bindings = <&kp LBRC>;
-            key-positions = <RB1 RB2>;
-            layers = <NAV>;
-            timeout-ms = <18>;
-            require-prior-idle-ms = <150>;
-        };
-
-        combo_rbrc {
-            bindings = <&kp RBRC>;
-            key-positions = <RB2 RB3>;
-            layers = <NAV>;
-            timeout-ms = <18>;
-            require-prior-idle-ms = <150>;
-        };
-
-        /* Less-than / greater-than on NAV layer */
-        combo_lt {
-            bindings = <&kp LT>;
-            key-positions = <RM1 RM2>;
-            layers = <NAV>;
-            timeout-ms = <18>;
-            require-prior-idle-ms = <150>;
-        };
-
-        combo_gt {
-            bindings = <&kp GT>;
-            key-positions = <RM2 RM3>;
-            layers = <NAV>;
-            timeout-ms = <18>;
-            require-prior-idle-ms = <150>;
         };
     };
 
@@ -393,15 +393,6 @@
             compatible = "zmk,behavior-mod-morph";
             label = "LT_BSPC_DEL";
             bindings = <&lt NUM BACKSPACE>, <&kp DELETE>;
-            #binding-cells = <0>;
-            mods = <(MOD_LSFT|MOD_RSFT)>;
-        };
-
-        /* Tap: backspace | Shift + tap: delete */
-        bspc_del: bspc_del {
-            compatible = "zmk,behavior-mod-morph";
-            label = "BSPC_DEL";
-            bindings = <&kp BACKSPACE>, <&kp DELETE>;
             #binding-cells = <0>;
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
@@ -429,121 +420,115 @@
             bindings = <&kp QMARK>, <&kp EXCL>;
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
+
+        /* Tap: ( | Shift + tap: < */
+        lpar_lt: lpar_lt {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp LPAR>, <&kp LT>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        /* Tap: ) | Shift + tap: > */
+        rpar_gt: rpar_gt {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp RPAR>, <&kp GT>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        /* Tap: [ | Shift + tap: { */
+        lbkt_lbrc: lbkt_lbrc {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp LBKT>, <&kp LBRC>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        /* Tap: ] | Shift + tap: } */
+        rbkt_rbrc: rbkt_rbrc {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp RBKT>, <&kp RBRC>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
     };
 
     keymap {
         compatible = "zmk,keymap";
 
-        /* Layer 0: Base (QWERTY)
-         * ╭─────┬─────┬─────┬─────┬─────┬─────╮ ╭─────┬─────┬─────┬─────┬─────┬─────╮
-         * │ TAB │  Q  │  W  │  E  │  R  │  T  │ │  Y  │  U  │  I  │  O  │  P  │  -  │
-         * │GRAVE│A/CTL│S/ALT│D/CMD│F/SFT│  G  │ │  H  │J/SFT│K/CMD│L/ALT│;/CTL│  '  │
-         * │GLOBE│  Z  │  X  │  C  │  V  │  B  │ │  N  │  M  │ ,;  │ .:  │ ?!  │  =  │
-         * ╰─────┴─────┴─────┼─────┼─────┼─────┤ ├─────┼─────┼─────┼─────┴─────┴─────╯
-         *                   │ GUI │SP/NV│RT/FN│ │BS/NM│RSHFT│RALT │
-         *                   ╰─────┴─────┴─────╯ ╰─────┴─────┴─────╯
+        /* Layer 0: Base (QWERTY) — 36-key layout on 42-key matrix
+         * Outer pinky columns (pos 0,11,12,23,24,35) are &none
+         *
+         * ╭─────┬─────┬─────┬─────┬─────╮ ╭─────┬─────┬─────┬─────┬─────╮
+         * │  Q  │  W  │  E  │  R  │  T  │ │  Y  │  U  │  I  │  O  │  P  │
+         * │A/CTL│S/ALT│D/CMD│F/SFT│  G  │ │  H  │J/SFT│K/CMD│L/ALT│;/CTL│
+         * │  Z  │  X  │  C  │  V  │  B  │ │  N  │  M  │ ,;  │ .:  │ ?!  │
+         * ╰─────┴─────┼─────┼─────┼─────┤ ├─────┼─────┼─────┼─────┴─────╯
+         *             │ GUI │SP/NV│RT/FN│ │BS/NM│RSHFT│RALT │
+         *             ╰─────┴─────┴─────╯ ╰─────┴─────┴─────╯
          */
         base {
             display-name = "Base";
             bindings = <
-&kp TAB    &kp Q                &kp W            &kp E                &kp R              &kp T        &kp Y  &kp U               &kp I                 &kp O             &kp P                    &kp MINUS
-&kp GRAVE  &hml LEFT_CONTROL A  &hml LEFT_ALT S  &hml LEFT_COMMAND D  &hml LEFT_SHIFT F  &kp G        &kp H  &hmr RIGHT_SHIFT J  &hmr RIGHT_COMMAND K  &hmr RIGHT_ALT L  &hmr RIGHT_CONTROL SEMI  &kp SQT
-&kp GLOBE  &kp Z                &kp X            &kp C                &kp V              &kp B        &kp N  &kp M               &comma_morph          &dot_morph        &qmark_excl              &kp EQUAL
-                                                  &kp LGUI             &lt NAV SPACE      &lt FN RET   &lt_bspc_del  &kp RSHFT    &kp RALT
+XXX  &kp Q                &kp W            &kp E                &kp R              &kp T        &kp Y         &kp U               &kp I                 &kp O             &kp P                    XXX
+XXX  &hml LEFT_CONTROL A  &hml LEFT_ALT S  &hml LEFT_COMMAND D  &hml LEFT_SHIFT F  &kp G        &kp H         &hmr RIGHT_SHIFT J  &hmr RIGHT_COMMAND K  &hmr RIGHT_ALT L  &hmr RIGHT_CONTROL SEMI  XXX
+XXX  &kp Z                &kp X            &kp C                &kp V              &kp B        &kp N         &kp M               &comma_morph          &dot_morph        &qmark_excl              XXX
+                                            &kp LGUI             &lt NAV SPACE      &lt FN RET   &lt_bspc_del  &kp RSHFT           &kp RALT
             >;
         };
 
-        /* Layer 1: Navigation
-         * ╭─────┬─────┬─────┬─────┬─────┬─────╮ ╭─────┬─────┬─────┬─────┬─────┬─────╮
-         * │     │     │     │     │     │     │ │PG_UP│BSPC │  UP │ DEL │     │     │
-         * │     │skGUI│skALT│skSFT│skCTL│     │ │PG_DN│LEFT │DOWN │RIGHT│ RET │     │
-         * │     │     │     │     │     │     │ │ INS │ TAB │     │     │     │     │
-         * ╰─────┴─────┴─────┼─────┼─────┼─────┤ ├─────┼─────┼─────┼─────┴─────┴─────╯
-         *                   │     │     │     │ │     │     │CANCL│
-         *                   ╰─────┴─────┴─────╯ ╰─────┴─────┴─────╯
-         */
+        /* Layer 1: Navigation */
         nav {
             display-name = "Nav";
             bindings = <
-___  ___       ___      ___       ___       ___    &kp PG_UP  &kp BSPC  &kp UP    &kp DEL    ___       ___
-___  &sk LGUI  &sk LALT  &sk LSHFT  &sk LCTRL  ___    &kp PG_DN  &kp LEFT  &kp DOWN  &kp RIGHT  &kp RET   ___
-___  ___       ___      ___       ___       ___    &kp INS    &kp TAB   ___       ___        ___       ___
-                        ___       ___       ___    ___        ___       CANCEL
+XXX  ___       ___       ___       ___       ___    &kp PG_UP  &kp BSPC  &kp UP    &kp DEL    ___      XXX
+XXX  &sk LGUI  &sk LALT  &sk LSHFT &sk LCTRL ___    &kp PG_DN  &kp LEFT  &kp DOWN  &kp RIGHT  &kp RET  XXX
+XXX  ___       ___       ___       ___       ___    &kp INS    &kp TAB   ___       ___        ___      XXX
+                          ___       ___       ___    ___        ___       CANCEL
             >;
         };
 
-        /* Layer 2: Functions + Media
-         * ╭─────┬─────┬─────┬─────┬─────┬─────╮ ╭─────┬─────┬─────┬─────┬─────┬─────╮
-         * │     │ F12 │ F7  │ F8  │ F9  │     │ │     │PREV │VOL_U│NEXT │     │     │
-         * │     │ F11 │ F4  │ F5  │ F6  │     │ │     │DSK_P│VOL_D│DSK_N│     │     │
-         * │     │ F10 │ F1  │ F2  │ F3  │     │ │PIN_A│PIN_W│DSK_M│     │     │     │
-         * ╰─────┴─────┴─────┼─────┼─────┼─────┤ ├─────┼─────┼─────┼─────┴─────┴─────╯
-         *                   │     │     │     │ │MUTE │PLAY │     │
-         *                   ╰─────┴─────┴─────╯ ╰─────┴─────┴─────╯
-         */
+        /* Layer 2: Functions + Media */
         fn {
             display-name = "Fn";
             bindings = <
-___  &kp F12  &kp F7  &kp F8  &kp F9  ___    ___      &kp C_PREV  &kp C_VOL_UP  &kp C_NEXT  ___  ___
-___  &kp F11  &kp F4  &kp F5  &kp F6  ___    ___      DSK_PREV    &kp C_VOL_DN  DSK_NEXT    ___  ___
-___  &kp F10  &kp F1  &kp F2  &kp F3  ___    PIN_APP  PIN_WIN     DSK_MGR       ___         ___  ___
-                      ___     ___     ___    &kp C_MUTE  &kp C_PP  ___
+XXX  &kp F12  &kp F7  &kp F8  &kp F9  ___    ___         &kp C_PREV  &kp C_VOL_UP  &kp C_NEXT  ___  XXX
+XXX  &kp F11  &kp F4  &kp F5  &kp F6  ___    ___         DSK_PREV    &kp C_VOL_DN  DSK_NEXT    ___  XXX
+XXX  &kp F10  &kp F1  &kp F2  &kp F3  ___    PIN_APP     PIN_WIN     DSK_MGR       ___         ___  XXX
+                       ___     ___     ___    &kp C_MUTE  &kp C_PP    ___
             >;
         };
 
-        /* Layer 3: Numbers (numpad left hand)
-         * ╭─────┬─────┬─────┬─────┬─────┬─────╮ ╭─────┬─────┬─────┬─────┬─────┬─────╮
-         * │     │     │  7  │  8  │  9  │     │ │     │     │     │     │     │     │
-         * │     │0/CTL│4/ALT│5/CMD│6/SFT│     │ │     │ SFT │ CMD │ ALT │ CTL │     │
-         * │     │     │  1  │  2  │  3  │     │ │     │     │     │     │     │     │
-         * ╰─────┴─────┴─────┼─────┼─────┼─────┤ ├─────┼─────┼─────┼─────┴─────┴─────╯
-         *                   │     │     │     │ │     │     │     │
-         *                   ╰─────┴─────┴─────╯ ╰─────┴─────┴─────╯
-         */
+        /* Layer 3: Numbers (numpad left hand) */
         num {
             display-name = "Num";
             bindings = <
-___  ___                  &kp N7           &kp N8                &kp N9              ___    ___  ___         ___              ___            ___              ___
-___  &hml LEFT_CONTROL N0  &hml LEFT_ALT N4  &hml LEFT_COMMAND N5  &hml LEFT_SHIFT N6  ___    ___  &kp RSHFT   &kp RIGHT_COMMAND  &kp RIGHT_ALT  &kp RIGHT_CONTROL  ___
-___  ___                  &kp N1           &kp N2                &kp N3              ___    ___  ___         ___              ___            ___              ___
-                                           ___                   ___                 ___    ___  ___         ___
+XXX  ___                  &kp N7           &kp N8                &kp N9              ___    ___  ___              ___                ___            ___                XXX
+XXX  &hml LEFT_CONTROL N0 &hml LEFT_ALT N4 &hml LEFT_COMMAND N5  &hml LEFT_SHIFT N6  ___    ___  &kp RIGHT_SHIFT  &kp RIGHT_COMMAND  &kp RIGHT_ALT  &kp RIGHT_CONTROL  XXX
+XXX  ___                  &kp N1           &kp N2                &kp N3              ___    ___  ___              ___                ___            ___                XXX
+                                            ___                   ___                 ___    ___  ___              ___
             >;
         };
 
-        /* Layer 4: System (conditional: FN + NUM)
-         * ╭─────┬─────┬─────┬─────┬─────┬─────╮ ╭─────┬─────┬─────┬─────┬─────┬─────╮
-         * │     │BT 0 │BT 1 │BT 2 │BT 3 │BTCLR│ │     │     │     │     │     │     │
-         * │     │     │     │     │     │BOOTL│ │BOOTL│     │     │     │     │     │
-         * │     │     │     │     │     │RESET│ │RESET│     │     │     │     │     │
-         * ╰─────┴─────┴─────┼─────┼─────┼─────┤ ├─────┼─────┼─────┼─────┴─────┴─────╯
-         *                   │     │     │     │ │     │     │     │
-         *                   ╰─────┴─────┴─────╯ ╰─────┴─────┴─────╯
-         */
+        /* Layer 4: System (conditional: FN + NUM) */
         sys {
             display-name = "Sys";
             bindings = <
-___  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_CLR      ___          ___  ___  ___  ___  ___
-___  ___           ___           ___           ___           &bootloader     &bootloader  ___  ___  ___  ___  ___
-___  ___           ___           ___           ___           &sys_reset      &sys_reset   ___  ___  ___  ___  ___
+XXX  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_CLR      ___          ___  ___  ___  ___  XXX
+XXX  ___           ___           ___           ___           &bootloader     &bootloader  ___  ___  ___  ___  XXX
+XXX  ___           ___           ___           ___           &sys_reset      &sys_reset   ___  ___  ___  ___  XXX
                                  ___           ___           ___             ___          ___  ___
             >;
         };
 
-        /* Layer 5: Mouse
-         * ╭─────┬─────┬─────┬─────┬─────┬─────╮ ╭─────┬─────┬─────┬─────┬─────┬─────╮
-         * │     │     │     │     │     │     │ │     │PG_UP│MS_UP│PG_DN│     │     │
-         * │     │     │     │     │     │     │ │WH_L │MS_LF│MS_DN│MS_RT│WH_R │     │
-         * │     │     │     │     │     │     │ │     │LCLK │MCLK │RCLK │     │     │
-         * ╰─────┴─────┴─────┼─────┼─────┼─────┤ ├─────┼─────┼─────┼─────┴─────┴─────╯
-         *                   │     │     │     │ │WH_UP│WH_DN│     │
-         *                   ╰─────┴─────┴─────╯ ╰─────┴─────┴─────╯
-         */
+        /* Layer 5: Mouse */
         mouse {
             display-name = "Mouse";
             bindings = <
-___  ___  ___  ___  ___  ___    ___     &kp PG_UP  U_MS_U     &kp PG_DN  ___     ___
-___  ___  ___  ___  ___  ___    U_WH_L  U_MS_L     U_MS_D     U_MS_R     U_WH_R  ___
-___  ___  ___  ___  ___  ___    ___     &mkp LCLK  &mkp MCLK  &mkp RCLK  ___     ___
+XXX  ___  ___  ___  ___  ___    ___     &kp PG_UP  U_MS_U     &kp PG_DN  ___     XXX
+XXX  ___  ___  ___  ___  ___    U_WH_L  U_MS_L     U_MS_D     U_MS_R     U_WH_R  XXX
+XXX  ___  ___  ___  ___  ___    ___     &mkp LCLK  &mkp MCLK  &mkp RCLK  ___     XXX
                     ___  ___  ___    U_WH_U  U_WH_D     ___
             >;
         };

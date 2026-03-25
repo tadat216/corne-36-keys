@@ -21,8 +21,8 @@ All user-editable files live in `config/`:
 | File | Purpose |
 |------|---------|
 | `config/corne.keymap` | All key bindings, layers, combos, and custom behaviors |
-| `config/corne.conf` | Feature flags (BLE power, RGB, display, power management) |
-| `config/corne.overlay` | Device tree: OLED (I2C), RGB (SPI3), external power |
+| `config/corne.conf` | Feature flags (BLE power, power management) |
+| `config/corne.overlay` | Device tree: key matrix, GPIO scan config |
 | `config/corne.dtsi` | Hardware matrix transform and GPIO scan config |
 | `config/west.yml` | ZMK version pin (`v0.3`) + urob module dependencies |
 
@@ -135,11 +135,10 @@ HRM timing: 280ms tapping-term, 175ms quick-tap, 150ms require-prior-idle.
 ## Hardware Notes
 
 - **Layout:** 36-key (3x5+3) Corne on 42-key matrix shield
-- **MCU:** Nice!Nano v2 (nRF52840)
-- **RGB:** WS2812 underglow via SPI3, 27 LEDs per half (54 total), GRB color order, max brightness capped at 30 in `.conf`
-- **Display:** SSD1306 OLED 128x32 via I2C at address `0x3c`
+- **MCU:** NRF52840 ProMicro
 - **BLE TX power:** +8 dBm
 - **Power timeouts:** 60s idle, 20min deep sleep
+- **Free pins:** I2C (SDA P0.17, SCL P0.20) and SPI3 (MOSI P0.06) — available for trackpad
 
 ## ZMK-Specific Patterns
 

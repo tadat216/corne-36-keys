@@ -85,6 +85,44 @@
             >;
         };
 
+        /* Hold-tap wrappers for HRM combos on right hand.
+         * Tap: mod-morph behavior | Hold: combined modifier of the two HRM keys.
+         * Trigger positions = left hand + thumbs (same as hmr).
+         */
+        hmr_lpar: hmr_lpar {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            bindings = <&kp>, <&lpar_lt>;
+            flavor = "balanced";
+            tapping-term-ms = <280>;
+            quick-tap-ms = <QUICK_TAP_MS>;
+            require-prior-idle-ms = <150>;
+            hold-trigger-on-release;
+            hold-trigger-key-positions = <
+                1  2  3  4  5
+                13 14 15 16 17
+                25 26 27 28 29
+                36 37 38 39 40 41
+            >;
+        };
+
+        hmr_rpar: hmr_rpar {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            bindings = <&kp>, <&rpar_gt>;
+            flavor = "balanced";
+            tapping-term-ms = <280>;
+            quick-tap-ms = <QUICK_TAP_MS>;
+            require-prior-idle-ms = <150>;
+            hold-trigger-on-release;
+            hold-trigger-key-positions = <
+                1  2  3  4  5
+                13 14 15 16 17
+                25 26 27 28 29
+                36 37 38 39 40 41
+            >;
+        };
+
         hmr: hmr {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
@@ -191,18 +229,18 @@
             require-prior-idle-ms = <150>;
         };
 
-        /* Tap: ( | Shift: < */
+        /* Tap: ( | Shift: < | Hold: Shift+Cmd */
         combo_lpar {
-            bindings = <&lpar_lt>;
+            bindings = <&hmr_lpar RS(RGUI) 0>;
             key-positions = <19 20>;
             layers = <DEF NAV NUM>;
             timeout-ms = <18>;
             require-prior-idle-ms = <150>;
         };
 
-        /* Tap: ) | Shift: > */
+        /* Tap: ) | Shift: > | Hold: Cmd+Alt */
         combo_rpar {
-            bindings = <&rpar_gt>;
+            bindings = <&hmr_rpar RG(RALT) 0>;
             key-positions = <20 21>;
             layers = <DEF NAV NUM>;
             timeout-ms = <18>;

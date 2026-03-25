@@ -138,7 +138,7 @@
         combo_mouse {
             bindings = <&tog MOUSE>;
             key-positions = <3 4>;
-            layers = <DEF NAV NUM>;
+            layers = <DEF NAV NUM MOUSE>;
             timeout-ms = <18>;
             require-prior-idle-ms = <150>;
         };

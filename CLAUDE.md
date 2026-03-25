@@ -63,7 +63,6 @@ All from [urob](https://github.com/urob), pinned to `v0.3`:
 | 2 | Functions (FN) | `&lt FN RET` (left thumb hold) |
 | 3 | Numbers (NUM) | `&lt_bspc_del` (right thumb hold, tap=backspace, shift+tap=delete) |
 | 4 | System (SYS) | Conditional: FN + NUM held simultaneously |
-| 5 | Mouse (MOUSE) | Combo toggle: E + R keys |
 
 ### Thumb Layout
 
@@ -87,14 +86,14 @@ Right: Bspc/NUM (shift=Del) | RShift | RAlt
 
 HRM timing: 280ms tapping-term, 175ms quick-tap, 150ms require-prior-idle.
 
-### Combos (28 total)
+### Combos (27 total)
 
 **Horizontal combos (18ms timeout, 150ms idle):**
 
 | Keys | Result | Layers |
 |------|--------|--------|
 | W+E (2+3) | ESC | DEF NAV NUM |
-| E+R (3+4) | Mouse toggle | DEF NAV NUM |
+| E+R (3+4) | Caps Word | DEF |
 | S+D (14+15) | TAB | DEF NAV NUM |
 | X+V (26+28) | Cut (Cmd+X) | DEF NAV NUM |
 | X+C (26+27) | Copy (Cmd+C) | DEF NAV NUM |
@@ -106,7 +105,6 @@ HRM timing: 280ms tapping-term, 175ms quick-tap, 150ms require-prior-idle.
 | K+L (20+21) | ) / Shift: > | DEF NAV NUM |
 | M+, (31+32) | [ / Shift: { | DEF NAV NUM |
 | ,+. (32+33) | ] / Shift: } | DEF NAV NUM |
-| G+H (17+18) | Caps Word | DEF only |
 
 **Vertical combos (30ms timeout, 50ms idle):**
 

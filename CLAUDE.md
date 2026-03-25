@@ -94,15 +94,15 @@ HRM timing: 280ms tapping-term, 175ms quick-tap, 150ms require-prior-idle.
 |------|--------|--------|
 | W+E (2+3) | ESC | DEF NAV NUM |
 | E+R (3+4) | Caps Word | DEF |
-| S+D (14+15) | TAB | DEF NAV NUM |
+| S+D (14+15) | TAB / Hold: Shift+Alt | DEF NAV NUM |
 | X+V (26+28) | Cut (Cmd+X) | DEF NAV NUM |
 | X+C (26+27) | Copy (Cmd+C) | DEF NAV NUM |
 | C+V (27+28) | Paste (Cmd+V) | DEF NAV NUM |
 | U+I (7+8) | Backspace | DEF NAV NUM |
 | I+O (8+9) | Delete | DEF NAV NUM |
 | O+P (9+10) | Single Quote (') | DEF NAV NUM |
-| J+K (19+20) | ( / Shift: < | DEF NAV NUM |
-| K+L (20+21) | ) / Shift: > | DEF NAV NUM |
+| J+K (19+20) | ( / Shift: < / Hold: Shift+Cmd | DEF NAV NUM |
+| K+L (20+21) | ) / Shift: > / Hold: Cmd+Alt | DEF NAV NUM |
 | M+, (31+32) | [ / Shift: { | DEF NAV NUM |
 | ,+. (32+33) | ] / Shift: } | DEF NAV NUM |
 
@@ -149,5 +149,6 @@ HRM timing: 280ms tapping-term, 175ms quick-tap, 150ms require-prior-idle.
 - Custom behaviors (mod-morph, hold-tap, etc.) go in a `behaviors { }` node at the root level.
 - Multiple `/ { }` blocks are valid — they get merged by the DTS compiler.
 - The `ZMK_HOLD_TAP` helper macro from zmk-helpers has expansion issues with position label macros. Write hold-tap behaviors as explicit DTS nodes instead.
+- **HRM combo hack:** Combos where both keys are home row mods (S+D, J+K, K+L) must use hold-tap wrapped bindings. Otherwise the combo fires instantly and you lose access to the combined modifiers. Tap = combo action, Hold = combined modifier of both HRM keys. See `hmr_lpar`, `hmr_rpar`, and the `&hml` on the TAB combo.
 - ZMK Studio is enabled (`CONFIG_ZMK_STUDIO=y`) with locking disabled — live keymap editing works over USB without reflashing.
 - The online Keymap Editor does not support preprocessor macros (`#define`, `___`, etc.). Use ZMK Studio for visual editing.

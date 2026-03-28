@@ -63,6 +63,7 @@ All from [urob](https://github.com/urob), pinned to `v0.3`:
 | 2 | Functions (FN) | `&lt FN RET` (left thumb hold) |
 | 3 | Numbers (NUM) | `&lt_bspc_del` (right thumb hold, tap=backspace, shift+tap=delete) |
 | 4 | System (SYS) | Conditional: FN + NUM held simultaneously |
+| 5 | Binding of Isaac (BOI) | Toggle: G+H combo |
 
 ### Thumb Layout
 

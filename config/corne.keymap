@@ -22,6 +22,7 @@
 #define FN  2
 #define NUM 3
 #define SYS 4
+#define BOI 5
 
 /* Shorthand */
 #define XXX &none
@@ -394,6 +395,14 @@
             timeout-ms = <30>;
             require-prior-idle-ms = <50>;
         };
+
+        /* Toggle Binding of Isaac layer: G + H */
+        combo_boi {
+            bindings = <&tog BOI>;
+            key-positions = <5 18>;
+            timeout-ms = <30>;
+            require-prior-idle-ms = <50>;
+        };
     };
 
     /* FN + NUM --> SYS (conditional layer) */
@@ -538,6 +547,25 @@ XXX  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_CLR      ___
 XXX  ___           ___           ___           ___           &bootloader     &bootloader  ___  ___  ___  ___  XXX
 XXX  ___           ___           ___           ___           &sys_reset      &sys_reset   ___  ___  ___  ___  XXX
                                  ___           ___           ___             ___          ___  ___
+            >;
+        };
+
+        /* Layer 5: Binding of Isaac (toggle via G+H combo)
+         * ╭─────┬─────┬─────┬─────┬─────╮ ╭─────┬─────┬─────┬─────┬─────╮
+         * │ ESC │  Q  │  W  │  E  │  R  │ │  Y  │  U  │  I  │  O  │  `  │
+         * │SHIFT│  A  │  S  │  D  │  F  │ │  H  │  J  │  K  │  ↑  │     │
+         * │CTRL │  Z  │  X  │  C  │  V  │ │  N  │  M  │  ←  │  ↓  │  →  │
+         * ╰─────┴─────┼─────┼─────┼─────┤ ├─────┼─────┼─────┼─────┴─────╯
+         *                   │SPACE│ENTER│ │BSPC │ TAB │
+         *                   ╰─────┴─────╯ ╰─────┴─────╯
+         */
+        boi {
+            display-name = "BoI";
+            bindings = <
+XXX  &kp ESC    &kp Q  &kp W  &kp E      &kp R      &kp Y     &kp U    &kp I     &kp O      &kp GRAVE  XXX
+XXX  &kp LSHFT  &kp A  &kp S  &kp D      &kp F      &kp H     &kp J    &kp K     &kp UP     XXX        XXX
+XXX  &kp LCTRL  &kp Z  &kp X  &kp C      &kp V      &kp N     &kp M    &kp LEFT  &kp DOWN   &kp RIGHT  XXX
+                        XXX     &kp SPACE  &kp RET    &kp BSPC  &kp TAB  XXX
             >;
         };
 

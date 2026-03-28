@@ -13,8 +13,10 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 #include <zmk/display/status_screen.h>
 #include <zmk/event_manager.h>
 #include <zmk/events/battery_state_changed.h>
+#if !IS_ENABLED(CONFIG_ZMK_SPLIT) || IS_ENABLED(CONFIG_ZMK_SPLIT_ROLE_CENTRAL)
 #include <zmk/events/layer_state_changed.h>
 #include <zmk/keymap.h>
+#endif
 
 #if IS_ENABLED(CONFIG_ZMK_WIDGET_OUTPUT_STATUS)
 #include <zmk/display/widgets/output_status.h>
@@ -72,6 +74,8 @@ ZMK_SUBSCRIPTION(custom_peripheral_battery, zmk_peripheral_battery_state_changed
 
 #endif /* CONFIG_ZMK_SPLIT_BLE_CENTRAL_BATTERY_LEVEL_FETCHING */
 
+#if !IS_ENABLED(CONFIG_ZMK_SPLIT) || IS_ENABLED(CONFIG_ZMK_SPLIT_ROLE_CENTRAL)
+
 /* --- Layer widget --- */
 
 static lv_obj_t *layer_label;
@@ -100,6 +104,8 @@ static int layer_cb(const zmk_event_t *eh) {
 ZMK_LISTENER(custom_layer, layer_cb);
 ZMK_SUBSCRIPTION(custom_layer, zmk_layer_state_changed);
 
+#endif /* CENTRAL */
+
 /* --- Screen setup --- */
 
 lv_obj_t *zmk_display_status_screen(void) {
@@ -118,12 +124,14 @@ lv_obj_t *zmk_display_status_screen(void) {
     lv_obj_align(zmk_widget_output_status_obj(&output_status_widget), LV_ALIGN_TOP_LEFT, 0, 0);
 #endif
 
+#if !IS_ENABLED(CONFIG_ZMK_SPLIT) || IS_ENABLED(CONFIG_ZMK_SPLIT_ROLE_CENTRAL)
     /* Layer: bottom left */
     layer_label = lv_label_create(screen);
     lv_obj_set_style_text_font(layer_label, lv_theme_get_font_small(screen), LV_PART_MAIN);
     lv_label_set_text(layer_label, "");
     lv_obj_align(layer_label, LV_ALIGN_BOTTOM_LEFT, 0, 0);
     update_layer_label(NULL);
+#endif
 
     return screen;
 }

@@ -33,7 +33,7 @@ static bool peripheral_connected;
 static void update_battery_label(struct k_work *work) {
     char text[20];
     if (peripheral_connected) {
-        snprintf(text, sizeof(text), "L:%d%% R:%d%%", central_level, peripheral_level);
+        snprintf(text, sizeof(text), "%d%%  %d%%", central_level, peripheral_level);
     } else {
         snprintf(text, sizeof(text), "%d%%", central_level);
     }

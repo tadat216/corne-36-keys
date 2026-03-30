@@ -1,0 +1,11 @@
+/*
+ * Input listener - Left (central) side
+ * Receives trackpad events from peripheral via BLE split link
+ */
+
+/ {
+	glidepoint_listener {
+		compatible = "zmk,input-listener";
+		device = <&glidepoint_split>;
+	};
+};

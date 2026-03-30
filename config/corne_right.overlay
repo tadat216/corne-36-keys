@@ -1,9 +1,5 @@
-/*
- * Cirque Trackpad - Right (peripheral) side
- * Connected via I2C through OLED header (SDA P0.17, SCL P0.20)
- * Cirque I2C address: 0x2A
- * Using polling mode (no data-ready GPIO needed)
- */
+/* Right (peripheral) side overlay */
+#include "corne_common.dtsi"
 
 &pro_micro_i2c {
 	glidepoint: glidepoint@2a {

@@ -1,7 +1,5 @@
-/*
- * Input listener - Left (central) side
- * Receives trackpad events from peripheral via BLE split link
- */
+/* Left (central) side overlay */
+#include "corne_common.dtsi"
 
 / {
 	glidepoint_listener {

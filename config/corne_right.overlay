@@ -31,7 +31,7 @@
 		compatible = "cirque,pinnacle";
 		reg = <0x2a>;
 		status = "okay";
-		data-ready-gpios = <&gpio0 6 GPIO_ACTIVE_HIGH>;
+		dr-gpios = <&gpio0 6 GPIO_ACTIVE_HIGH>;
 		sensitivity = "4x";
 	};
 };

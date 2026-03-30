@@ -1,6 +1,11 @@
 /* Right (peripheral) side overlay */
 #include "corne_common.dtsi"
 
+/* Disable RGB SPI3 to free P0.06 for Cirque DR pin */
+&spi3 {
+	status = "disabled";
+};
+
 &pro_micro_i2c {
 	glidepoint: glidepoint@2a {
 		compatible = "cirque,pinnacle";

@@ -15,5 +15,5 @@
 };
 
 &glidepoint_split {
-	device = <&glidepoint>;
+	input = <&glidepoint>;
 };

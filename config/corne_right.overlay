@@ -27,11 +27,13 @@
 };
 
 &pro_micro_i2c {
+	clock-frequency = <400000>;
+
 	glidepoint: glidepoint@2a {
 		compatible = "cirque,pinnacle";
 		reg = <0x2a>;
 		status = "okay";
-		dr-gpios = <&gpio0 6 GPIO_ACTIVE_HIGH>;
+		data-ready-gpios = <&gpio0 6 GPIO_ACTIVE_HIGH>;
 		sensitivity = "4x";
 	};
 };

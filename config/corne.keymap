@@ -514,7 +514,7 @@ XXX  &kp Z                &kp X            &kp C                &kp V           
             display-name = "Nav";
             bindings = <
 XXX  ___       ___       ___       ___       ___    &kp PG_UP  &kp BSPC  &kp UP    &kp DEL    ___      XXX
-XXX  &sk LGUI  &sk LALT  &sk LSHFT &sk LCTRL ___    &kp PG_DN  &kp LEFT  &kp DOWN  &kp RIGHT  &kp RET  XXX
+XXX  &sk LCTRL &sk LALT  &sk LGUI  &sk LSHFT ___    &kp PG_DN  &kp LEFT  &kp DOWN  &kp RIGHT  &kp RET  XXX
 XXX  ___       ___       ___       ___       ___    &kp INS    &kp TAB   ___       ___        ___      XXX
                           ___       ___       ___    ___        ___       CANCEL
             >;

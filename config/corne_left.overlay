@@ -1,9 +1,0 @@
-/* Left (central) side overlay */
-#include "corne_common.dtsi"
-
-/ {
-	glidepoint_listener {
-		compatible = "zmk,input-listener";
-		device = <&glidepoint_split>;
-	};
-};

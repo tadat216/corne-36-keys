@@ -1,4 +1,0 @@
-config CUSTOM_DUAL_BATTERY_SCREEN
-    bool "Custom dual battery status screen"
-    default y if ZMK_DISPLAY_STATUS_SCREEN_CUSTOM
-    select LV_USE_LABEL
